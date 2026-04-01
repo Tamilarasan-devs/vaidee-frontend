@@ -51,7 +51,7 @@ const styles = `
     position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
   }
   .hw-hero-deco span {
-    position: absolute; border-radius: 50%;
+    position: absolute; 
     border: 1px solid rgba(201,168,76,0.1);
   }
   .hw-hero-deco span:nth-child(1) { width: 620px; height: 620px; right: -170px; top: -170px; }
@@ -157,7 +157,7 @@ const styles = `
     animation: slideUp 0.8s 0.3s both;
   }
   .hw-photo-ring {
-    width: 112px; height: 112px; border-radius: 50%;
+    width: 500; height: 100%; border-radius: 30%;
     margin: 0 auto 20px;
     position: relative;
   }
