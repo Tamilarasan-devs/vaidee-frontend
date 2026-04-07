@@ -242,8 +242,8 @@ export default function Home() {
               backdrop-blur-xl">
               {/* photo */}
               <div className="w-full mb-5">
-                <div className="relative w-[340px] h-[540px] mx-auto  ">
-                  <div className="absolute inset-[-4px]  z-0 rounded-full"
+                <div className="relative w-[340px] h-[540px] mx-auto">
+                  <div className="absolute inset-[-4px] rounded-full z-0"
                     style={{ background: 'conic-gradient(#c9a84c 0deg, rgba(201,168,76,0.1) 180deg, #c9a84c 360deg)' }}/>
                   <div className="relative z-10 w-full h-full rounded-full overflow-hidden
                     border-[3px] border-[#071e2c]
@@ -295,7 +295,7 @@ export default function Home() {
         <div className="w-full max-w-sm rounded-[28px] p-8 pb-7
           bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.11)]
           backdrop-blur-xl">
-          <div className="w-[120px] h-[120px] mx-auto mb-5 relative">
+          <div className="w-[220px] h-[320px] mx-auto mb-5 relative">
             <div className="absolute inset-[-4px] rounded-full"
               style={{ background: 'conic-gradient(#c9a84c 0deg, rgba(201,168,76,0.1) 180deg, #c9a84c 360deg)' }}/>
             <div className="relative w-full h-full rounded-full overflow-hidden border-[3px] border-[#071e2c]
@@ -540,7 +540,19 @@ export default function Home() {
         </div>
       </section>
 
-
+      {/* ══════════════════════════════════════════
+          FOOTER
+      ══════════════════════════════════════════ */}
+      <footer className="bg-[#040f17] px-[7vw] py-10 flex justify-between items-center flex-wrap gap-4
+        border-t border-[rgba(255,255,255,0.04)] xs:flex-col xs:items-start xs:gap-3">
+        <div className="font-cormorant font-semibold text-[rgba(255,255,255,0.6)] text-base">Vaidhee Design Academy</div>
+        <div className="flex gap-5">
+          {['Privacy','Terms','Contact'].map(l => (
+            <a key={l} href="#" className="text-xs text-[rgba(255,255,255,0.3)] no-underline transition-colors hover:text-[rgba(255,255,255,0.7)]">{l}</a>
+          ))}
+        </div>
+        <div className="text-xs text-[rgba(255,255,255,0.28)] font-light">© 2025 Vaidhee Design Academy</div>
+      </footer>
     </div>
   )
 }
