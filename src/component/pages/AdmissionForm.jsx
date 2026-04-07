@@ -121,7 +121,7 @@ export default function AdmissionForm() {
     qualification: "", college: "",
     batch: "", joiningDate: "",
     paymentMode: "", advancePaid: "",
-    declaration: false,
+    // declaration: false,
   });
 
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value });
@@ -315,41 +315,7 @@ export default function AdmissionForm() {
             </div>
 
             {/* ── Section 6: Declaration ── */}
-            <div className="p-7 pb-5" style={{ borderBottom: `1px solid ${NAVY}10` }}>
-              <SectionHeader number="6" title="Declaration" icon="✍️" />
-              <div
-                className="rounded-xl p-5 mb-5 text-sm leading-relaxed"
-                style={{ background: `${NAVY}05`, border: `1px dashed ${NAVY}25`, color: `${NAVY}cc` }}
-              >
-                I hereby confirm that the above-furnished details are true and correct to the best of my knowledge. I agree to abide by the rules, regulations, and code of conduct of Vaidhee Design Academy throughout the duration of the course.
-              </div>
-              <label className="flex items-start gap-3 cursor-pointer">
-                <div className="mt-0.5 flex-shrink-0">
-                  <input
-                    type="checkbox"
-                    checked={form.declaration}
-                    onChange={(e) => setForm({ ...form, declaration: e.target.checked })}
-                    className="hidden"
-                  />
-                  <div
-                    className="w-5 h-5 rounded flex items-center justify-center transition-all duration-200"
-                    style={{
-                      background: form.declaration ? NAVY : "#fff",
-                      border: `2px solid ${form.declaration ? NAVY : `${NAVY}33`}`,
-                    }}
-                  >
-                    {form.declaration && (
-                      <svg viewBox="0 0 12 10" fill="none" width="12">
-                        <path d="M1 5l3.5 3.5L11 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    )}
-                  </div>
-                </div>
-                <span className="text-sm" style={{ color: `${NAVY}bb` }}>
-                  I accept the declaration and agree to all terms and conditions.
-                </span>
-              </label>
-            </div>
+            
 
             {/* ── For Office Use ── */}
             <div className="p-7 pb-5" style={{ borderBottom: `1px solid ${NAVY}10`, background: `${NAVY}03` }}>
