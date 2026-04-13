@@ -539,20 +539,6 @@ export default function Home() {
           <p className="mt-5 text-xs text-[rgba(255,255,255,0.3)] font-light">No commitment — reach out and we'll answer all your questions</p>
         </div>
       </section>
-
-      {/* ══════════════════════════════════════════
-          FOOTER
-      ══════════════════════════════════════════ */}
-      <footer className="bg-[#040f17] px-[7vw] py-10 flex justify-between items-center flex-wrap gap-4
-        border-t border-[rgba(255,255,255,0.04)] xs:flex-col xs:items-start xs:gap-3">
-        <div className="font-cormorant font-semibold text-[rgba(255,255,255,0.6)] text-base">Vaidhee Design Academy</div>
-        <div className="flex gap-5">
-          {['Privacy','Terms','Contact'].map(l => (
-            <a key={l} href="#" className="text-xs text-[rgba(255,255,255,0.3)] no-underline transition-colors hover:text-[rgba(255,255,255,0.7)]">{l}</a>
-          ))}
-        </div>
-        <div className="text-xs text-[rgba(255,255,255,0.28)] font-light">© 2025 Vaidhee Design Academy</div>
-      </footer>
     </div>
   )
 }

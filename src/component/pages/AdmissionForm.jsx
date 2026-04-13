@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import BASE_URL from "../../apiConfig";
 
 const NAVY = "#0c4563";
 const GOLD = "#b8933a";
@@ -114,6 +117,9 @@ const RadioGroup = ({ options, name, value, onChange }) => (
 );
 
 export default function AdmissionForm() {
+  const location = useLocation();
+  const selectedCourse = location.state || {};
+
   const [form, setForm] = useState({
     fullName: "", fatherName: "", dob: "", gender: "",
     phone: "", whatsapp: "", email: "",
@@ -121,6 +127,8 @@ export default function AdmissionForm() {
     qualification: "", college: "",
     batch: "", joiningDate: "",
     paymentMode: "", advancePaid: "",
+    courseName: selectedCourse.courseName || "6 Months Fashion Designing Course",
+    totalFees: selectedCourse.fees || "19,999",
     // declaration: false,
   });
 
@@ -128,13 +136,21 @@ export default function AdmissionForm() {
   const setRadio = (key) => (val) => setForm({ ...form, [key]: val });
 
   const balance = () => {
+    const total = parseFloat(form.totalFees.toString().replace(/,/g, "")) || 0;
     const adv = parseFloat(form.advancePaid) || 0;
-    return (19999 - adv).toLocaleString("en-IN");
+    return (total - adv).toLocaleString("en-IN");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Admission form submitted successfully! 🎉");
+    try {
+      const { data } = await axios.post(`${BASE_URL}/api/admissions`, form);
+      if (data.success) {
+        alert("Admission form submitted successfully! 🎉");
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || err.message || "Failed to submit form. Please try again.");
+    }
   };
 
   return (
@@ -185,7 +201,7 @@ export default function AdmissionForm() {
             <div className="flex items-center gap-3 mt-2">
               <div className="h-px w-10" style={{ background: `${GOLD}66` }} />
               <p className="text-xs uppercase tracking-widest" style={{ color: `${GOLD}99` }}>
-                6 Months Fashion Designing Course
+                {form.courseName}
               </p>
               <div className="h-px w-10" style={{ background: `${GOLD}66` }} />
             </div>
@@ -196,7 +212,7 @@ export default function AdmissionForm() {
             className="grid grid-cols-3 divide-x"
             style={{ borderTop: `1px solid rgba(255,255,255,0.1)`, divideColor: "rgba(255,255,255,0.1)" }}
           >
-            {[["Duration", "6 Months"], ["Fees", "₹19,999"], ["Batches", "3 Daily"]].map(([label, val]) => (
+            {[["Duration", selectedCourse.duration || "6 Months"], ["Fees", `₹${form.totalFees}`], ["Batches", "3 Daily"]].map(([label, val]) => (
               <div key={label} className="py-3 flex flex-col items-center" style={{ borderRight: "1px solid rgba(255,255,255,0.1)" }}>
                 <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{label}</span>
                 <span className="text-sm font-semibold text-white">{val}</span>
@@ -277,7 +293,7 @@ export default function AdmissionForm() {
                     className="px-4 py-2.5 rounded-lg text-sm font-semibold"
                     style={{ background: `${NAVY}08`, color: NAVY, border: `1.5px solid ${NAVY}20` }}
                   >
-                    6 Months Fashion Designing Course
+                    {form.courseName}
                   </div>
                 </Field>
                 <Field label="Joining Date" half><Input type="date" value={form.joiningDate} onChange={set("joiningDate")} /></Field>
@@ -296,7 +312,7 @@ export default function AdmissionForm() {
                 className="rounded-xl p-4 mb-5 grid grid-cols-3 gap-4"
                 style={{ background: `linear-gradient(135deg, ${NAVY}08, ${NAVY}04)`, border: `1px solid ${NAVY}15` }}
               >
-                {[["Total Fees", "₹19,999"], ["Advance Paid", `₹${parseFloat(form.advancePaid || 0).toLocaleString("en-IN")}`], ["Balance Due", `₹${balance()}`]].map(([lbl, val]) => (
+                {[["Total Fees", `₹${form.totalFees}`], ["Advance Paid", `₹${parseFloat(form.advancePaid || 0).toLocaleString("en-IN")}`], ["Balance Due", `₹${balance()}`]].map(([lbl, val]) => (
                   <div key={lbl} className="text-center">
                     <p className="text-xs uppercase tracking-wider mb-1" style={{ color: `${NAVY}77` }}>{lbl}</p>
                     <p className="text-base font-bold" style={{ color: NAVY }}>{val}</p>
@@ -353,11 +369,6 @@ export default function AdmissionForm() {
             </div>
           </div>
         </form>
-
-        {/* Footer */}
-        <p className="text-center text-xs mt-6" style={{ color: `${NAVY}44` }}>
-          © 2025 Vaidhee Design Academy · Coimbatore · vaidheedesignacademy@gmail.com
-        </p>
       </div>
     </div>
   );

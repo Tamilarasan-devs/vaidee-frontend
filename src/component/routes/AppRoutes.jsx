@@ -8,6 +8,7 @@ import Courses from '../pages/Courses'
 import Gallery from '../pages/Gallery'
 import Testimonials from '../pages/Testimonials'
 import AdmissionForm from '../pages/AdmissionForm'
+import RecordedCourses from '../pages/RecordedCourses'
 
 export default function AppRoutes() {
   return (
@@ -21,6 +22,7 @@ export default function AppRoutes() {
           <Route path="gallery" element={<Gallery />} />
           <Route path="testimonials" element={<Testimonials />} />
           <Route path="admission" element={<AdmissionForm />} />
+          <Route path="recorded-courses" element={<RecordedCourses />} />
         </Route>
       </Routes>
     </BrowserRouter>
