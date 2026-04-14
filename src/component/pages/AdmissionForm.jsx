@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import BASE_URL from "../../apiConfig";
+import qrImage from "../../assets/qr.jpg";
 
 const NAVY = "#0c4563";
 const GOLD = "#b8933a";
@@ -132,6 +133,10 @@ export default function AdmissionForm() {
     // declaration: false,
   });
 
+  const [screenshot, setScreenshot] = useState(null);
+  const [showPayment, setShowPayment] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const set = (key) => (e) => setForm({ ...form, [key]: e.target.value });
   const setRadio = (key) => (val) => setForm({ ...form, [key]: val });
 
@@ -142,14 +147,51 @@ export default function AdmissionForm() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
+    
+    // Validate required fields (basic)
+    if (!form.fullName || !form.phone || !form.email) {
+      alert("Please fill in the required personal details.");
+      return;
+    }
+
+    if (!showPayment) {
+      setShowPayment(true);
+      return;
+    }
+
+    if (!screenshot) {
+      alert("Please upload the payment screenshot to proceed.");
+      return;
+    }
+
     try {
-      const { data } = await axios.post(`${BASE_URL}/api/admissions`, form);
+      setIsSubmitting(true);
+      const formData = new FormData();
+      
+      // Append all form fields
+      Object.keys(form).forEach(key => {
+        formData.append(key, form[key]);
+      });
+      
+      // Append the file
+      formData.append("paymentScreenshot", screenshot);
+
+      const { data } = await axios.post(`${BASE_URL}/api/admissions`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
       if (data.success) {
         alert("Admission form submitted successfully! 🎉");
+        setShowPayment(false);
+        // Reset form or redirect
       }
     } catch (err) {
       alert(err.response?.data?.message || err.message || "Failed to submit form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -322,7 +364,7 @@ export default function AdmissionForm() {
 
               <div className="grid grid-cols-2 gap-x-5 gap-y-5">
                 <Field label="Payment Mode">
-                  <RadioGroup options={["Cash", "UPI", "Bank Transfer"]} name="paymentMode" value={form.paymentMode} onChange={setRadio("paymentMode")} />
+                  <RadioGroup options={[ "UPI",]} name="paymentMode" value={form.paymentMode} onChange={setRadio("paymentMode")} />
                 </Field>
                 <Field label="Advance Amount Paid" half>
                   <Input type="number" value={form.advancePaid} onChange={set("advancePaid")} placeholder="Enter amount" />
@@ -330,24 +372,7 @@ export default function AdmissionForm() {
               </div>
             </div>
 
-            {/* ── Section 6: Declaration ── */}
             
-
-            {/* ── For Office Use ── */}
-            <div className="p-7 pb-5" style={{ borderBottom: `1px solid ${NAVY}10`, background: `${NAVY}03` }}>
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-px flex-1" style={{ background: `${NAVY}15` }} />
-                <span className="text-xs tracking-widest uppercase px-3" style={{ color: `${NAVY}55` }}>
-                  For Office Use Only
-                </span>
-                <div className="h-px flex-1" style={{ background: `${NAVY}15` }} />
-              </div>
-              <div className="grid grid-cols-3 gap-5">
-                {["Admission No.", "Received By", "Remarks"].map((lbl) => (
-                  <Field key={lbl} label={lbl} half><Input placeholder="—" /></Field>
-                ))}
-              </div>
-            </div>
 
             {/* ── Submit Button ── */}
             <div className="p-7">
@@ -369,6 +394,88 @@ export default function AdmissionForm() {
             </div>
           </div>
         </form>
+
+        {/* ── PAYMENT MODAL ── */}
+        {showPayment && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <div 
+              className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in duration-300"
+              style={{ fontFamily: "'DM Sans', sans-serif" }}
+            >
+              <div className="p-6 text-center border-b border-gray-100">
+                <h3 className="text-xl font-bold" style={{ color: NAVY }}>Complete Payment</h3>
+                <p className="text-sm text-gray-500 mt-1">Scan the QR code to pay the advance amount</p>
+              </div>
+              
+              <div className="p-8 flex flex-col items-center">
+                {/* QR Code Container */}
+                <div 
+                  className="p-4 rounded-2xl mb-6 bg-white shadow-inner border-2 border-dashed"
+                  style={{ borderColor: `${GOLD}44` }}
+                >
+                  <img 
+                    src={qrImage} 
+                    alt="Payment QR Code" 
+                    className="w-48 h-48 object-contain rounded-lg"
+                  />
+                </div>
+
+                <div className="w-full space-y-4">
+                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-center">
+                    <p className="text-xs uppercase tracking-widest text-gray-400 mb-1">Advance Amount</p>
+                    <p className="text-2xl font-bold" style={{ color: NAVY }}>₹{parseFloat(form.advancePaid || 0).toLocaleString("en-IN")}</p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold uppercase tracking-widest text-gray-500">
+                      Upload Screenshot
+                    </label>
+                    <div 
+                      className="relative border-2 border-dashed rounded-xl p-4 transition-all hover:bg-slate-50 cursor-pointer"
+                      style={{ 
+                        borderColor: screenshot ? `${MID_NAVY}88` : `${NAVY}22`,
+                        background: screenshot ? `${NAVY}05` : "transparent"
+                      }}
+                    >
+                      <input 
+                        type="file" 
+                        accept="image/*"
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        onChange={(e) => setScreenshot(e.target.files[0])}
+                      />
+                      <div className="flex flex-col items-center gap-2">
+                        <span className="text-2xl">{screenshot ? "✅" : "📸"}</span>
+                        <span className="text-xs font-semibold text-gray-600">
+                          {screenshot ? screenshot.name : "Click to upload transaction screenshot"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 flex gap-3 bg-slate-50">
+                <button 
+                  onClick={() => setShowPayment(false)}
+                  className="flex-1 py-3 rounded-xl font-semibold text-sm transition-all hover:bg-gray-200 text-gray-600"
+                >
+                  Back
+                </button>
+                <button 
+                  onClick={() => handleSubmit()}
+                  disabled={isSubmitting}
+                  className="flex-[2] py-3 rounded-xl text-white font-semibold text-sm tracking-widest uppercase transition-all shadow-lg"
+                  style={{ 
+                    background: isSubmitting ? "#ccc" : `linear-gradient(135deg, ${NAVY}, ${MID_NAVY})`,
+                    boxShadow: isSubmitting ? "none" : `0 8px 16px ${NAVY}30`
+                  }}
+                >
+                  {isSubmitting ? "Submitting..." : "Confirm & Submit"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
