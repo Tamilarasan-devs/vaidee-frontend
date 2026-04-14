@@ -1,4 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import BASE_URL from '../../apiConfig'
 import image from '../../assets/vaide.jpeg'
 import ban from '../../assets/ban.png'
 
@@ -120,6 +123,25 @@ const ArrowRight = () => (
 
 export default function Home() {
   const [imgErr, setImgErr] = useState(false)
+  const navigate = useNavigate()
+  const [courses, setCourses] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const { data } = await axios.get(`${BASE_URL}/api/courses`)
+        if (data.success) {
+          setCourses(data.data.slice(0, 2))
+        }
+      } catch (err) {
+        console.error("Error fetching courses:", err)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchCourses()
+  }, [])
 
   return (
     <div className="font-outfit text-[#1a1a1a] bg-white overflow-x-hidden leading-none">
@@ -356,114 +378,109 @@ export default function Home() {
       <section className="px-[7vw] py-24 sm:px-[6vw] sm:py-16 xs:px-[5vw] xs:py-14">
         <div className="inline-flex items-center gap-2.5 text-[11px] font-semibold tracking-[0.13em] uppercase text-[#c9a84c] mb-3.5
           before:content-[''] before:w-7 before:h-0.5 before:bg-[#c9a84c] before:rounded">
-          Our Flagship Program
+          Professional Training
         </div>
         <h2 className="font-cormorant font-bold text-[#0c4563] leading-snug mb-4
           text-[clamp(28px,3vw,46px)]">
-          6-Month Fashion Designing<br/>&amp; Boutique Skill Course
+          Explore Our Courses
         </h2>
         <p className="text-[15px] text-[#6b7280] max-w-[500px] leading-[1.75] font-light mb-14">
-          Everything you need to go from zero to running your own fashion boutique — in just six months.
+          Master the art of fashion design with our expert-led programs designed for beginners and professionals alike.
         </p>
 
-        {/* course layout */}
-        <div className="grid grid-cols-1 xl:grid-cols-[360px_1fr] gap-8 items-start">
-
-          {/* price card */}
-          <div className="rounded-3xl overflow-hidden shadow-[0_8px_48px_rgba(12,69,99,0.12)] border border-[rgba(12,69,99,0.1)] xl:sticky xl:top-[90px]">
-            <div className="relative overflow-hidden px-7 py-8"
-              style={{ background: 'linear-gradient(145deg,#0c4563 0%,#0e5278 100%)' }}>
-              <div className="absolute -right-[70px] -bottom-[70px] w-[200px] h-[200px] rounded-full bg-[rgba(255,255,255,0.04)] pointer-events-none"/>
-              <div className="inline-block bg-[#c9a84c] text-[#071e2c] text-[10px] font-bold px-3.5 py-1 rounded-full tracking-wide uppercase mb-3.5">Most Popular</div>
-              <h3 className="font-cormorant font-bold text-white text-[22px] mb-1">Fashion Designing &amp; Boutique</h3>
-              <p className="text-[12px] text-[rgba(255,255,255,0.48)] font-light">6-Month Comprehensive Course</p>
-            </div>
-            <div className="bg-white px-7 py-7">
-              <div className="flex items-baseline gap-2.5 flex-wrap mb-1.5">
-                <span className="font-cormorant font-bold text-[#0c4563] text-[42px] leading-none">₹19,999</span>
-                <span className="text-lg text-gray-300 line-through font-light">₹20,999</span>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[1, 2].map((i) => (
+              <div key={i} className="h-[450px] bg-[#fdf9f4] animate-pulse rounded-[32px] border border-[rgba(12,69,99,0.08)]">
+                <div className="h-32 bg-[rgba(12,69,99,0.03)] rounded-t-[32px]"/>
+                <div className="p-8 space-y-4">
+                  <div className="h-6 w-3/4 bg-[rgba(12,69,99,0.03)] rounded"/>
+                  <div className="h-4 w-1/2 bg-[rgba(12,69,99,0.03)] rounded"/>
+                  <div className="h-24 w-full bg-[rgba(12,69,99,0.03)] rounded"/>
+                </div>
               </div>
-              <div className="mb-1.5">
-                <span className="text-[11px] bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-full font-semibold">🎁 Save ₹1,000 on full payment</span>
-              </div>
-              <p className="text-[12px] text-[#6b7280] mb-6 font-light">Or pay in easy installments below</p>
-              <div className="text-[10px] font-semibold uppercase tracking-widest text-[#6b7280] mb-2.5">Installment Plan</div>
-              <div className="flex flex-col gap-2 mb-6">
-                {[
-                  { l: 'Before class starts',   v: '₹8,999' },
-                  { l: 'On or before June 1',   v: '₹5,500' },
-                  { l: 'On or before July 1',   v: '₹5,500' },
-                ].map(({ l, v }) => (
-                  <div key={l} className="flex justify-between items-center px-3.5 py-3 bg-[#fdf9f4] rounded-[10px] text-sm">
-                    <span className="text-[#6b7280] font-light">{l}</span>
-                    <span className="font-semibold text-[#0c4563]">{v}</span>
-                  </div>
-                ))}
-              </div>
-              <button
-                className="font-outfit w-full flex items-center justify-center gap-2
-                  text-white border-none px-4 py-4 rounded-xl text-sm font-semibold cursor-pointer
-                  tracking-wide transition-all duration-200
-                  hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(12,69,99,0.28)]"
-                style={{ background: 'linear-gradient(135deg,#0c4563 0%,#0e5278 100%)' }}>
-                Enrol Now <ArrowRight/>
-              </button>
-            </div>
+            ))}
           </div>
-
-          {/* detail cards */}
-          <div className="flex flex-col gap-5">
-            {/* schedule */}
-            <div className="bg-white border border-[rgba(12,69,99,0.1)] rounded-[20px] p-7
-              hover:border-[rgba(12,69,99,0.18)] hover:shadow-[0_4px_24px_rgba(12,69,99,0.06)] transition-all">
-              <div className="flex items-center gap-2.5 text-[10px] font-semibold uppercase tracking-widest text-[#6b7280] mb-5">
-                Schedule
-                <div className="flex-1 h-px bg-[rgba(12,69,99,0.1)]"/>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {courses.length === 0 ? (
+              <div className="col-span-full py-12 text-center bg-[#fdf9f4] rounded-3xl border border-dashed border-[#e8e0d5]">
+                <p className="text-[#6b7280] font-light italic">Readying our next batch of courses for you...</p>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {[
-                  { l: 'Start Date', v: 'May 4, 2025' },
-                  { l: 'Class Days', v: 'Mon – Fri' },
-                  { l: 'Timing',     v: '2:00 – 4:00 PM' },
-                  { l: 'Duration',   v: '6 Months' },
-                ].map(({ l, v }) => (
-                  <div key={l} className="bg-[#fdf9f4] rounded-xl p-3.5 text-center border border-[rgba(12,69,99,0.05)]">
-                    <div className="text-[10px] text-[#6b7280] font-normal uppercase tracking-wide mb-1.5">{l}</div>
-                    <div className="text-sm font-semibold text-[#0c4563] leading-snug">{v}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* what's included */}
-            <div className="bg-white border border-[rgba(12,69,99,0.1)] rounded-[20px] p-7
-              hover:border-[rgba(12,69,99,0.18)] hover:shadow-[0_4px_24px_rgba(12,69,99,0.06)] transition-all">
-              <div className="flex items-center gap-2.5 text-[10px] font-semibold uppercase tracking-widest text-[#6b7280] mb-5">
-                What's Included
-                <div className="flex-1 h-px bg-[rgba(12,69,99,0.1)]"/>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                {[
-                  'Live practical sessions — 4 days per week',
-                  'Friday pre-recorded theory classes',
-                  'Lifetime access to all recordings',
-                  'Boutique startup guidance & career support',
-                  'Course completion certificate',
-                  'Dedicated mentor support throughout',
-                ].map((item, i) => (
-                  <div key={i} className="flex items-start gap-2.5 p-3.5 bg-[#fdf9f4] rounded-xl text-sm text-[#1a1a1a] leading-relaxed border border-[rgba(12,69,99,0.04)]">
-                    <div className="w-[22px] h-[22px] rounded-[7px] bg-[#0c4563] flex-shrink-0 flex items-center justify-center mt-0.5">
-                      <svg viewBox="0 0 12 12" fill="none" className="w-[11px] h-[11px]">
-                        <path d="M2 6l3 3 5-5" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+            ) : (
+              courses.map((course) => (
+                <div key={course._id} className="group relative rounded-[32px] overflow-hidden shadow-[0_8px_48px_rgba(12,69,99,0.1)] border border-[rgba(12,69,99,0.08)] bg-white flex flex-col transition-all duration-300 hover:shadow-[0_20px_60px_rgba(12,69,99,0.15)] hover:-translate-y-1">
+                  {/* Card Header */}
+                  <div className="relative overflow-hidden px-8 py-9" 
+                    style={{ background: 'linear-gradient(135deg, #0c4563 0%, #165c82 100%)' }}>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-[0.03] rounded-full -mr-16 -mt-16"/>
+                    <div className="inline-flex items-center gap-1.5 bg-[#c9a84c] text-[#071e2c] text-[10px] font-bold px-3.5 py-1.5 rounded-full tracking-wider uppercase mb-4">
+                      <span className="w-1 h-1 bg-[#071e2c] rounded-full"/>
+                      {course.tagLine || "Professional Path"}
                     </div>
-                    {item}
+                    <h3 className="font-cormorant font-bold text-white text-[26px] leading-tight mb-1.5">{course.title}</h3>
+                    <div className="text-[12px] text-[rgba(255,255,255,0.5)] font-light tracking-wide">{course.duration} Program</div>
                   </div>
-                ))}
-              </div>
-            </div>
+
+                  {/* Card Body */}
+                  <div className="px-8 py-8 flex-1 flex flex-col">
+                    <div className="mb-8">
+                      <div className="flex items-baseline gap-2 mb-6">
+                        <span className="font-cormorant font-bold text-[#0c4563] text-[40px] leading-none">₹{course.fees}</span>
+                        <span className="text-[13px] text-[#6b7280] font-light uppercase tracking-widest">Full Course</span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3 mb-8">
+                        <div className="bg-[#fcf7ef] rounded-2xl p-4 border border-[rgba(201,168,76,0.1)]">
+                          <div className="text-[9px] text-[#b8933a] font-bold uppercase tracking-[0.15em] mb-1.5">Schedule</div>
+                          <div className="text-[13px] font-semibold text-[#0c4563] truncate">{course.schedule}</div>
+                        </div>
+                        <div className="bg-[#fcf7ef] rounded-2xl p-4 border border-[rgba(201,168,76,0.1)]">
+                          <div className="text-[9px] text-[#b8933a] font-bold uppercase tracking-[0.15em] mb-1.5">Timing</div>
+                          <div className="text-[13px] font-semibold text-[#0c4563] truncate">{course.timing}</div>
+                        </div>
+                      </div>
+
+                      <p className="text-[14px] text-[#6b7280] leading-[1.8] line-clamp-3 font-light">
+                        {course.description}
+                      </p>
+                    </div>
+
+                    <div className="mt-auto">
+                      <button
+                        onClick={() => navigate('/admission', { state: { courseName: course.title, fees: course.fees } })}
+                        className="font-outfit w-full flex items-center justify-center gap-2
+                          text-white border-none px-6 py-4.5 rounded-2xl text-[14px] font-semibold cursor-pointer
+                          tracking-wide transition-all duration-300 shadow-md
+                          hover:shadow-xl hover:bg-[#c9a84c] hover:text-[#071e2c]"
+                        style={{ background: 'linear-gradient(135deg, #0c4563 0%, #165c82 100%)' }}>
+                        Enrol Now <ArrowRight/>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-        </div>
+        )}
+
+        {/* View All Button */}
+        {!loading && courses.length > 0 && (
+          <div className="mt-16 flex justify-center">
+            <button
+              onClick={() => navigate('/courses')}
+              className="group font-outfit inline-flex items-center gap-3 border-[1.5px] border-[rgba(12,69,99,0.2)] text-[#0c4563]
+                px-10 py-4 rounded-2xl text-[14px] font-semibold cursor-pointer
+                tracking-wide transition-all duration-300
+                hover:border-[#0c4563] hover:bg-[#0c4563] hover:text-white"
+            >
+              View All Courses
+              <div className="transition-transform duration-300 group-hover:translate-x-1">
+                <ArrowRight/>
+              </div>
+            </button>
+          </div>
+        )}
       </section>
 
       {/* ══════════════════════════════════════════
@@ -521,13 +538,17 @@ export default function Home() {
             Secure your spot today and start building your dream boutique.
           </p>
           <div className="flex justify-center gap-3.5 flex-wrap">
-            <button className="font-outfit inline-flex items-center gap-2 bg-[#c9a84c] text-[#071e2c]
+            <button 
+              onClick={() => navigate('/courses')}
+              className="font-outfit inline-flex items-center gap-2 bg-[#c9a84c] text-[#071e2c]
               px-7 py-3.5 rounded-xl text-sm font-semibold border-none cursor-pointer
               tracking-wide transition-all duration-200
               hover:-translate-y-0.5 hover:bg-[#e8c97a] hover:shadow-[0_10px_28px_rgba(201,168,76,0.28)]">
-              Enrol Now — ₹19,999 <ArrowRight/>
+              Enrol Now<ArrowRight/>
             </button>
-            <button className="font-outfit inline-flex items-center gap-2
+            <button 
+              onClick={() => navigate('/contact')}
+              className="font-outfit inline-flex items-center gap-2
               bg-[rgba(255,255,255,0.05)] text-[rgba(255,255,255,0.82)]
               px-7 py-3.5 rounded-xl text-sm font-normal
               border border-[rgba(255,255,255,0.18)] cursor-pointer
