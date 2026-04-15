@@ -13,8 +13,8 @@ export default function RecordedCourses() {
   const [error, setError] = useState(null);
 
   // Static credentials
-  const STATIC_USER = "student";
-  const STATIC_PASS = "vaide2026";
+  const STATIC_USER = "1234567890";
+  const STATIC_PASS = "1234567890";
 
   const handleLogin = (e) => {
     e.preventDefault();
