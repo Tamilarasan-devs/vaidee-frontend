@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
 import logo from "../../assets/logo.png.jpg";
 import { Link, useLocation } from "react-router-dom";
+import BASE_URL from "../../apiConfig";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -255,12 +256,28 @@ const styles = `
 export default function PremiumHeader() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/api/announcements`);
+        const data = await response.json();
+        if (data.success && data.data.length > 0) {
+          setAnnouncements(data.data);
+        }
+      } catch (error) {
+        console.error("Failed to load announcements:", error);
+      }
+    };
+    fetchAnnouncements();
   }, []);
 
   useEffect(() => {
@@ -273,11 +290,22 @@ export default function PremiumHeader() {
 
       {/* ── ANNOUNCEMENT BAR ── */}
       <div className="hdr-topbar">
-        <span className="hdr-topbar-dot" />
-        🎓 New Batch Starting May 4 · Limited Seats Available
-        <span className="hdr-topbar-dot" />
-        Call to Enrol · Easy Installments Available
-        <span className="hdr-topbar-dot" />
+        {announcements.length > 0 ? (
+          announcements.map((ann, idx) => (
+            <React.Fragment key={ann._id}>
+              {idx > 0 && <span className="hdr-topbar-dot" />}
+              <span>{ann.text}</span>
+            </React.Fragment>
+          ))
+        ) : (
+          <>
+            <span className="hdr-topbar-dot" />
+            🎓 New Batch Starting May 4 · Limited Seats Available
+            <span className="hdr-topbar-dot" />
+            Call to Enrol · Easy Installments Available
+            <span className="hdr-topbar-dot" />
+          </>
+        )}
       </div>
 
       {/* ── MAIN HEADER ── */}

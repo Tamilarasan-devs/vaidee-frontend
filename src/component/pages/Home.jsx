@@ -56,9 +56,9 @@ const whyCards = [
     desc: 'Learn directly from Vaidheeshwari — hands-on experience in fashion design and boutique management.',
     icon: (
       <>
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
       </>
     ),
   },
@@ -67,8 +67,8 @@ const whyCards = [
     desc: 'Attend 4 live practical sessions weekly. Every class recorded — watch anytime, forever.',
     icon: (
       <>
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
+        <rect x="2" y="3" width="20" height="14" rx="2" />
+        <path d="M8 21h8M12 17v4" />
       </>
     ),
   },
@@ -77,8 +77,8 @@ const whyCards = [
     desc: 'From basic stitching to advanced boutique operations — go from zero to business-ready in 6 months.',
     icon: (
       <>
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+        <path d="M12 2L2 7l10 5 10-5-10-5z" />
+        <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
       </>
     ),
   },
@@ -87,8 +87,8 @@ const whyCards = [
     desc: 'Premium training at just ₹19,999 with easy 3-part installments — quality education for all.',
     icon: (
       <>
-        <line x1="12" y1="1" x2="12" y2="23"/>
-        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+        <line x1="12" y1="1" x2="12" y2="23" />
+        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
       </>
     ),
   },
@@ -97,8 +97,8 @@ const whyCards = [
     desc: 'Classes Mon–Fri, 2–4 PM — perfect for homemakers, students, and working professionals.',
     icon: (
       <>
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
       </>
     ),
   },
@@ -107,8 +107,8 @@ const whyCards = [
     desc: 'Earn a recognized certificate for boutique launches, job applications, and freelance work.',
     icon: (
       <>
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
       </>
     ),
   },
@@ -117,7 +117,7 @@ const whyCards = [
 const ArrowRight = () => (
   <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2"
     strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-    <path d="M3 8h10M9 4l4 4-4 4"/>
+    <path d="M3 8h10M9 4l4 4-4 4" />
   </svg>
 )
 
@@ -164,9 +164,9 @@ export default function Home() {
         />
         {/* decorative rings */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-          <span className="absolute border border-[rgba(201,168,76,0.1)] w-[620px] h-[620px] -right-[170px] -top-[170px]" style={{borderRadius:0}}/>
-          <span className="absolute border border-[rgba(201,168,76,0.06)] w-[400px] h-[400px] right-[50px] top-[50px]" style={{borderRadius:0}}/>
-          <span className="absolute border border-[rgba(255,255,255,0.04)] w-[160px] h-[160px] left-[43%] bottom-[70px]" style={{borderRadius:0}}/>
+          <span className="absolute border border-[rgba(201,168,76,0.1)] w-[620px] h-[620px] -right-[170px] -top-[170px]" style={{ borderRadius: 0 }} />
+          <span className="absolute border border-[rgba(201,168,76,0.06)] w-[400px] h-[400px] right-[50px] top-[50px]" style={{ borderRadius: 0 }} />
+          <span className="absolute border border-[rgba(255,255,255,0.04)] w-[160px] h-[160px] left-[43%] bottom-[70px]" style={{ borderRadius: 0 }} />
         </div>
 
         {/* ── Hero Left ── */}
@@ -176,14 +176,14 @@ export default function Home() {
             bg-[rgba(201,168,76,0.12)] border border-[rgba(201,168,76,0.28)]
             text-[#e8c97a] px-3 py-1.5 rounded-full
             text-[11px] font-medium tracking-widest uppercase">
-            <div className="w-[22px] h-[22px] rounded-full bg-[rgba(201,168,76,0.18)] flex items-center justify-center pulse-dot"/>
+            <div className="w-[22px] h-[22px] rounded-full bg-[rgba(201,168,76,0.18)] flex items-center justify-center pulse-dot" />
             Now Enrolling — May 4 Batch
           </div>
 
           {/* title */}
           <h1 className="anim-slide-2 font-cormorant font-bold text-white leading-[1.1] mb-6
             text-[clamp(36px,4.5vw,66px)]">
-            Learn Fashion<br/>Design &amp; Start<br/>
+            Learn Fashion<br />Design &amp; Start<br />
             <em className="text-[#e8c97a] italic">Your Own Boutique</em>
           </h1>
 
@@ -201,7 +201,7 @@ export default function Home() {
               tracking-wide transition-all duration-200
               hover:-translate-y-0.5 hover:bg-[#e8c97a] hover:shadow-[0_10px_28px_rgba(201,168,76,0.28)]
               sm:justify-center">
-              Enrol for ₹19,999 <ArrowRight/>
+              Enrol for ₹19,999 <ArrowRight />
             </button>
             <button className="font-outfit inline-flex items-center gap-2
               bg-[rgba(255,255,255,0.05)] text-[rgba(255,255,255,0.82)]
@@ -218,9 +218,9 @@ export default function Home() {
           <div className="anim-slide-5 border-t border-[rgba(255,255,255,0.08)] pt-10
             grid grid-cols-3 gap-5 xs:grid-cols-3">
             {[
-              { num: '6',   lbl: 'Month Program' },
+              { num: '6', lbl: 'Month Program' },
               { num: '4+1', lbl: 'Days Per Week' },
-              { num: '∞',   lbl: 'Lifetime Access' },
+              { num: '∞', lbl: 'Lifetime Access' },
             ].map(({ num, lbl }, i) => (
               <div key={i} className={i > 0 ? 'border-l border-[rgba(255,255,255,0.08)] pl-5 sm:border-none sm:pl-0' : ''}>
                 <div className="font-cormorant font-bold text-[#e8c97a] text-[38px] leading-none mb-1.5">{num}</div>
@@ -234,7 +234,7 @@ export default function Home() {
         <div className="hidden lg:flex relative z-10 items-center justify-center px-[7vw] py-20 pl-10">
           <div className="relative w-full max-w-[390px]">
             {/* gold deco box */}
-            <div className="absolute w-[260px] h-[260px] bg-[rgba(201,168,76,0.06)] rounded-[40px] -top-8 -right-7 rotate-[14deg] z-0"/>
+            <div className="absolute w-[260px] h-[260px] bg-[rgba(201,168,76,0.06)] rounded-[40px] -top-8 -right-7 rotate-[14deg] z-0" />
 
             {/* float 1 */}
             <div className="float-0 absolute -bottom-5 -left-7 z-20
@@ -266,13 +266,13 @@ export default function Home() {
               <div className="w-full mb-5">
                 <div className="relative w-[340px] h-[540px] mx-auto">
                   <div className="absolute inset-[-4px] rounded-full z-0"
-                    style={{ background: 'conic-gradient(#c9a84c 0deg, rgba(201,168,76,0.1) 180deg, #c9a84c 360deg)' }}/>
+                    style={{ background: 'conic-gradient(#c9a84c 0deg, rgba(201,168,76,0.1) 180deg, #c9a84c 360deg)' }} />
                   <div className="relative z-10 w-full h-full rounded-full overflow-hidden
                     border-[3px] border-[#071e2c]
                     bg-gradient-to-br from-[#c9a84c] to-[#e8c97a]
                     flex items-center justify-center">
                     {!imgErr
-                      ? <img src={image} alt="Vaidheeshwari" onError={() => setImgErr(true)} className="w-full h-full object-cover"/>
+                      ? <img src={image} alt="Vaidheeshwari" onError={() => setImgErr(true)} className="w-full h-full object-cover" />
                       : <span className="font-cormorant font-bold text-[#071e2c] text-[42px]">V</span>
                     }
                   </div>
@@ -291,7 +291,7 @@ export default function Home() {
               <div className="font-cormorant font-semibold text-white text-2xl text-center mb-0.5">Vaidheeshwari</div>
               <div className="text-[11px] text-[rgba(255,255,255,0.4)] text-center font-light tracking-wide">Founder, Vaidhee Design Academy</div>
 
-              <div className="h-px bg-[rgba(255,255,255,0.07)] my-5"/>
+              <div className="h-px bg-[rgba(255,255,255,0.07)] my-5" />
 
               <div className="flex flex-col gap-3">
                 {[
@@ -319,11 +319,11 @@ export default function Home() {
           backdrop-blur-xl">
           <div className="w-[220px] h-[320px] mx-auto mb-5 relative">
             <div className="absolute inset-[-4px] rounded-full"
-              style={{ background: 'conic-gradient(#c9a84c 0deg, rgba(201,168,76,0.1) 180deg, #c9a84c 360deg)' }}/>
+              style={{ background: 'conic-gradient(#c9a84c 0deg, rgba(201,168,76,0.1) 180deg, #c9a84c 360deg)' }} />
             <div className="relative w-full h-full rounded-full overflow-hidden border-[3px] border-[#071e2c]
               bg-gradient-to-br from-[#c9a84c] to-[#e8c97a] flex items-center justify-center">
               {!imgErr
-                ? <img src={image} alt="Vaidheeshwari" onError={() => setImgErr(true)} className="w-full h-full object-cover"/>
+                ? <img src={image} alt="Vaidheeshwari" onError={() => setImgErr(true)} className="w-full h-full object-cover" />
                 : <span className="font-cormorant font-bold text-[#071e2c] text-[36px]">V</span>
               }
             </div>
@@ -333,7 +333,7 @@ export default function Home() {
           </div>
           <div className="font-cormorant font-semibold text-white text-2xl text-center mb-0.5">Vaidheeshwari</div>
           <div className="text-[11px] text-[rgba(255,255,255,0.4)] text-center font-light tracking-wide mb-5">Founder, Vaidhee Design Academy</div>
-          <div className="h-px bg-[rgba(255,255,255,0.07)] mb-5"/>
+          <div className="h-px bg-[rgba(255,255,255,0.07)] mb-5" />
           <div className="flex flex-col gap-3">
             {[
               { icon: '👋', text: 'Founder of Vaidhee Design Academy' },
@@ -353,7 +353,7 @@ export default function Home() {
           BANNER
       ══════════════════════════════════════════ */}
       <div className="relative overflow-hidden bg-[#071e2c] min-h-[200px] sm:min-h-[240px] md:h-[280px]">
-        <img src={ban} alt="Vaidhee Design Academy" className="w-full h-full object-cover opacity-20 absolute inset-0"/>
+        <img src={ban} alt="Vaidhee Design Academy" className="w-full h-full object-cover opacity-20 absolute inset-0" />
         <div
           className="absolute inset-0 flex items-center px-[7vw] sm:px-[6vw] xs:px-[5vw] py-12"
           style={{ background: 'linear-gradient(105deg, rgba(7,30,44,0.97) 0%, rgba(12,69,99,0.7) 55%, transparent 100%)' }}>
@@ -364,7 +364,7 @@ export default function Home() {
               Fashion Designing &amp; Boutique Skill Course
             </div>
             <div className="flex flex-wrap gap-2">
-              {['📅 Starts May 4','🕑 Mon–Fri · 2–4 PM','🎓 Beginner Friendly','💳 Easy Installments'].map(c => (
+              {['📅 Starts May 4', '🕑 Mon–Fri · 2–4 PM', '🎓 Beginner Friendly', '💳 Easy Installments'].map(c => (
                 <div key={c} className="flex items-center gap-1.5 bg-[rgba(255,255,255,0.07)] border border-[rgba(255,255,255,0.12)] text-[rgba(255,255,255,0.82)] px-3 py-1.5 rounded-full text-xs font-normal">{c}</div>
               ))}
             </div>
@@ -392,11 +392,11 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[1, 2].map((i) => (
               <div key={i} className="h-[450px] bg-[#fdf9f4] animate-pulse rounded-[32px] border border-[rgba(12,69,99,0.08)]">
-                <div className="h-32 bg-[rgba(12,69,99,0.03)] rounded-t-[32px]"/>
+                <div className="h-32 bg-[rgba(12,69,99,0.03)] rounded-t-[32px]" />
                 <div className="p-8 space-y-4">
-                  <div className="h-6 w-3/4 bg-[rgba(12,69,99,0.03)] rounded"/>
-                  <div className="h-4 w-1/2 bg-[rgba(12,69,99,0.03)] rounded"/>
-                  <div className="h-24 w-full bg-[rgba(12,69,99,0.03)] rounded"/>
+                  <div className="h-6 w-3/4 bg-[rgba(12,69,99,0.03)] rounded" />
+                  <div className="h-4 w-1/2 bg-[rgba(12,69,99,0.03)] rounded" />
+                  <div className="h-24 w-full bg-[rgba(12,69,99,0.03)] rounded" />
                 </div>
               </div>
             ))}
@@ -411,11 +411,11 @@ export default function Home() {
               courses.map((course) => (
                 <div key={course._id} className="group relative rounded-[32px] overflow-hidden shadow-[0_8px_48px_rgba(12,69,99,0.1)] border border-[rgba(12,69,99,0.08)] bg-white flex flex-col transition-all duration-300 hover:shadow-[0_20px_60px_rgba(12,69,99,0.15)] hover:-translate-y-1">
                   {/* Card Header */}
-                  <div className="relative overflow-hidden px-8 py-9" 
+                  <div className="relative overflow-hidden px-8 py-9"
                     style={{ background: 'linear-gradient(135deg, #0c4563 0%, #165c82 100%)' }}>
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-[0.03] rounded-full -mr-16 -mt-16"/>
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-[0.03] rounded-full -mr-16 -mt-16" />
                     <div className="inline-flex items-center gap-1.5 bg-[#c9a84c] text-[#071e2c] text-[10px] font-bold px-3.5 py-1.5 rounded-full tracking-wider uppercase mb-4">
-                      <span className="w-1 h-1 bg-[#071e2c] rounded-full"/>
+                      <span className="w-1 h-1 bg-[#071e2c] rounded-full" />
                       {course.tagLine || "Professional Path"}
                     </div>
                     <h3 className="font-cormorant font-bold text-white text-[26px] leading-tight mb-1.5">{course.title}</h3>
@@ -429,7 +429,7 @@ export default function Home() {
                         <span className="font-cormorant font-bold text-[#0c4563] text-[40px] leading-none">₹{course.fees}</span>
                         <span className="text-[13px] text-[#6b7280] font-light uppercase tracking-widest">Full Course</span>
                       </div>
-                      
+
                       <div className="grid grid-cols-2 gap-3 mb-8">
                         <div className="bg-[#fcf7ef] rounded-2xl p-4 border border-[rgba(201,168,76,0.1)]">
                           <div className="text-[9px] text-[#b8933a] font-bold uppercase tracking-[0.15em] mb-1.5">Schedule</div>
@@ -454,7 +454,7 @@ export default function Home() {
                           tracking-wide transition-all duration-300 shadow-md
                           hover:shadow-xl hover:bg-[#c9a84c] hover:text-[#071e2c]"
                         style={{ background: 'linear-gradient(135deg, #0c4563 0%, #165c82 100%)' }}>
-                        Enrol Now <ArrowRight/>
+                        Enrol Now <ArrowRight />
                       </button>
                     </div>
                   </div>
@@ -476,7 +476,7 @@ export default function Home() {
             >
               View All Courses
               <div className="transition-transform duration-300 group-hover:translate-x-1">
-                <ArrowRight/>
+                <ArrowRight />
               </div>
             </button>
           </div>
@@ -493,7 +493,7 @@ export default function Home() {
         </div>
         <h2 className="font-cormorant font-bold text-[#0c4563] leading-snug
           text-[clamp(28px,3vw,46px)]">
-          Built for Aspiring<br/>Fashion Entrepreneurs
+          Built for Aspiring<br />Fashion Entrepreneurs
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-14">
@@ -526,7 +526,7 @@ export default function Home() {
       <section className="relative overflow-hidden text-center px-[7vw] py-24 xs:px-[5vw] xs:py-16"
         style={{ background: 'linear-gradient(135deg,#071e2c 0%,#0c4563 100%)' }}>
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] pointer-events-none"
-          style={{ background: 'radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 65%)' }}/>
+          style={{ background: 'radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 65%)' }} />
         <div className="relative z-10 max-w-[600px] mx-auto">
           <div className="text-[11px] font-semibold tracking-[0.13em] uppercase text-[#c9a84c] mb-4">⚡ Limited Seats Available</div>
           <h2 className="font-cormorant font-bold text-white leading-snug mb-4
@@ -534,19 +534,19 @@ export default function Home() {
             Begin Your Fashion Journey This May
           </h2>
           <p className="text-[rgba(255,255,255,0.58)] mb-10 font-light leading-[1.7] text-base">
-            Seats are filling fast for the May 4 batch.<br/>
+            Seats are filling fast for the May 4 batch.<br />
             Secure your spot today and start building your dream boutique.
           </p>
           <div className="flex justify-center gap-3.5 flex-wrap">
-            <button 
+            <button
               onClick={() => navigate('/courses')}
               className="font-outfit inline-flex items-center gap-2 bg-[#c9a84c] text-[#071e2c]
               px-7 py-3.5 rounded-xl text-sm font-semibold border-none cursor-pointer
               tracking-wide transition-all duration-200
               hover:-translate-y-0.5 hover:bg-[#e8c97a] hover:shadow-[0_10px_28px_rgba(201,168,76,0.28)]">
-              Enrol Now<ArrowRight/>
+              Enrol Now<ArrowRight />
             </button>
-            <button 
+            <button
               onClick={() => navigate('/contact')}
               className="font-outfit inline-flex items-center gap-2
               bg-[rgba(255,255,255,0.05)] text-[rgba(255,255,255,0.82)]
