@@ -196,21 +196,14 @@ export default function Home() {
 
           {/* buttons */}
           <div className="anim-slide-4 flex flex-wrap gap-3 mb-14 sm:flex-col sm:w-full">
-            <button className="font-outfit inline-flex items-center gap-2 bg-[#c9a84c] text-[#071e2c]
+            <button
+              onClick={() => navigate('/admission', { state: { courseName: '6 Months Fashion Designing Course', fees: '19,999' } })}
+              className="font-outfit inline-flex items-center gap-2 bg-[#c9a84c] text-[#071e2c]
               px-7 py-3.5 rounded-xl text-sm font-semibold border-none cursor-pointer
               tracking-wide transition-all duration-200
               hover:-translate-y-0.5 hover:bg-[#e8c97a] hover:shadow-[0_10px_28px_rgba(201,168,76,0.28)]
               sm:justify-center">
-              Enrol for ₹19,999 <ArrowRight />
-            </button>
-            <button className="font-outfit inline-flex items-center gap-2
-              bg-[rgba(255,255,255,0.05)] text-[rgba(255,255,255,0.82)]
-              px-7 py-3.5 rounded-xl text-sm font-normal
-              border border-[rgba(255,255,255,0.18)] cursor-pointer
-              transition-all duration-200
-              hover:border-[rgba(255,255,255,0.45)] hover:bg-[rgba(255,255,255,0.09)]
-              sm:justify-center">
-              View Course Details
+               View Course Details <ArrowRight />
             </button>
           </div>
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown, Sparkles } from "lucide-react";
 import logo from "../../assets/logo.png.jpg";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import BASE_URL from "../../apiConfig";
 
 const navItems = [
@@ -283,7 +283,7 @@ export default function PremiumHeader() {
   useEffect(() => {
     setOpen(false);
   }, [location.pathname]);
-
+const navigate = useNavigate()
   return (
     <header className="hdr-root">
       <style>{styles}</style>
@@ -346,7 +346,7 @@ export default function PremiumHeader() {
 
           {/* CTA */}
           <div className="hdr-cta-wrap">
-            <button className="hdr-cta">
+            <button className="hdr-cta" onClick={()=>navigate('/courses')}>
               <Sparkles size={14} />
               Enrol Now
             </button>
