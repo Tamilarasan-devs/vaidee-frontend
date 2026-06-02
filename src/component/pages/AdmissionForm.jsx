@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 import BASE_URL from "../../apiConfig";
 import qrImage from "../../assets/qr.jpg";
 
@@ -119,19 +120,22 @@ const RadioGroup = ({ options, name, value, onChange }) => (
 
 export default function AdmissionForm() {
   const location = useLocation();
+  const navigate = useNavigate();
   const selectedCourse = location.state || {};
+  const hasCourse = !!(selectedCourse.courseName && selectedCourse.fees);
 
-  const [form, setForm] = useState({
+  const getInitialForm = () => ({
     fullName: "", fatherName: "", dob: "", gender: "",
     phone: "", whatsapp: "", email: "",
     address: "", city: "", pincode: "",
     qualification: "", college: "",
     batch: "", joiningDate: "",
     paymentMode: "", advancePaid: "",
-    courseName: selectedCourse.courseName || "6 Months Fashion Designing Course",
-    totalFees: selectedCourse.fees || "19,999",
-    // declaration: false,
+    courseName: selectedCourse.courseName || "",
+    totalFees: selectedCourse.fees || "",
   });
+
+  const [form, setForm] = useState(getInitialForm);
 
   const [screenshot, setScreenshot] = useState(null);
   const [showPayment, setShowPayment] = useState(false);
@@ -146,12 +150,18 @@ export default function AdmissionForm() {
     return (total - adv).toLocaleString("en-IN");
   };
 
+  const resetForm = () => {
+    setForm(getInitialForm());
+    setScreenshot(null);
+    setShowPayment(false);
+  };
+
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     
     // Validate required fields (basic)
     if (!form.fullName || !form.phone || !form.email) {
-      alert("Please fill in the required personal details.");
+      toast.error("Please fill in the required personal details.");
       return;
     }
 
@@ -161,7 +171,7 @@ export default function AdmissionForm() {
     }
 
     if (!screenshot) {
-      alert("Please upload the payment screenshot to proceed.");
+      toast.error("Please upload the payment screenshot to proceed.");
       return;
     }
 
@@ -184,16 +194,96 @@ export default function AdmissionForm() {
       });
 
       if (data.success) {
-        alert("Admission form submitted successfully! 🎉");
-        setShowPayment(false);
-        // Reset form or redirect
+        toast.success("Admission form submitted successfully! 🎉", {
+          duration: 5000,
+          style: {
+            background: NAVY,
+            color: '#fff',
+            fontFamily: "'DM Sans', sans-serif",
+            borderRadius: '12px',
+            padding: '14px 20px',
+            fontSize: '14px',
+            boxShadow: '0 8px 32px rgba(12,69,99,0.3)',
+          },
+          iconTheme: { primary: GOLD, secondary: '#fff' },
+        });
+        resetForm();
       }
     } catch (err) {
-      alert(err.response?.data?.message || err.message || "Failed to submit form. Please try again.");
+      toast.error(err.response?.data?.message || err.message || "Failed to submit form. Please try again.", {
+        duration: 4000,
+        style: {
+          borderRadius: '12px',
+          padding: '14px 20px',
+          fontSize: '14px',
+          fontFamily: "'DM Sans', sans-serif",
+        },
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
+
+  // ── NO COURSE SELECTED VIEW ──
+  if (!hasCourse) {
+    return (
+      <div
+        className="min-h-screen py-10 px-4 flex items-center justify-center"
+        style={{
+          background: `linear-gradient(160deg, #f4f9fc 0%, #eaf3f9 50%, #f0f6fa 100%)`,
+          fontFamily: "'DM Sans', sans-serif",
+        }}
+      >
+        <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');`}</style>
+        <div
+          className="max-w-md w-full rounded-2xl overflow-hidden text-center"
+          style={{
+            background: '#fff',
+            border: `1px solid ${NAVY}15`,
+            boxShadow: '0 12px 48px rgba(12,69,99,0.12)',
+          }}
+        >
+          {/* Top gold accent */}
+          <div className="h-1 w-full" style={{ background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+          <div className="px-8 pt-10 pb-4">
+            <div
+              className="w-20 h-20 rounded-full mx-auto flex items-center justify-center mb-5"
+              style={{ background: `${NAVY}08`, border: `2px solid ${NAVY}15` }}
+            >
+              <svg viewBox="0 0 48 48" fill="none" width="40" height="40">
+                <path d="M24 6L42 18V30L24 42L6 30V18Z" stroke={NAVY} strokeWidth="1.5" fill="none" opacity="0.3" />
+                <path d="M24 14L36 22V30L24 38L12 30V22Z" fill={`${GOLD}22`} stroke={GOLD} strokeWidth="1" />
+                <path d="M20 24L23 27L28 21" stroke={NAVY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+            <h2
+              className="text-2xl font-semibold mb-2"
+              style={{ color: NAVY, fontFamily: "'Playfair Display', serif" }}
+            >
+              Select a Course First
+            </h2>
+            <p className="text-sm mb-6 leading-relaxed" style={{ color: `${NAVY}88` }}>
+              To fill out the admission form, please browse our courses and click <strong>"Enroll Now"</strong> on the course you'd like to join.
+            </p>
+          </div>
+          <div className="px-8 pb-8">
+            <button
+              onClick={() => navigate('/courses')}
+              className="w-full py-3.5 rounded-xl text-white font-semibold text-sm tracking-widest uppercase transition-all duration-300 hover:opacity-90 active:scale-[0.99]"
+              style={{
+                background: `linear-gradient(135deg, ${NAVY}, ${MID_NAVY})`,
+                boxShadow: `0 8px 24px ${NAVY}40`,
+                fontFamily: "'DM Sans', sans-serif",
+                letterSpacing: '0.12em',
+              }}
+            >
+              Browse Courses
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -203,6 +293,7 @@ export default function AdmissionForm() {
         fontFamily: "'DM Sans', sans-serif",
       }}
     >
+      <Toaster position="top-center" reverseOrder={false} />
       <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');`}</style>
 
       <div className="max-w-3xl mx-auto">
