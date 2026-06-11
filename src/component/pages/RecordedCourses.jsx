@@ -9,42 +9,25 @@ export default function RecordedCourses() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginData, setLoginData] = useState({ username: "", password: "" });
   const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Static credentials
-  const STATIC_USER = "1234567890";
-  const STATIC_PASS = "1234567890";
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (loginData.username === STATIC_USER && loginData.password === STATIC_PASS) {
-      setIsAuthenticated(true);
-      setError(null);
-    } else {
-      setError("Invalid username or password");
-    }
-  };
-
-  const fetchCourses = async () => {
+    setLoading(true);
     try {
-      setLoading(true);
-      const { data } = await axios.get(`${BASE_URL}/api/recorded-courses`);
+      const { data } = await axios.post(`${BASE_URL}/api/recorded-courses/verify`, loginData);
       if (data.success) {
-        setCourses(data.data);
+        setCourses([data.data]);
+        setIsAuthenticated(true);
+        setError(null);
       }
     } catch (err) {
-      console.error(err);
+      setError(err.response?.data?.message || "Invalid username or password");
     } finally {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchCourses();
-    }
-  }, [isAuthenticated]);
 
   // Login Gate UI
   if (!isAuthenticated) {
@@ -93,9 +76,10 @@ export default function RecordedCourses() {
 
             <button
               type="submit"
-              className="w-full bg-[#0c4563] text-white py-4 rounded-2xl font-bold hover:bg-[#082f45] transition-all shadow-xl shadow-[#0c4563]/20 text-sm tracking-wide"
+              disabled={loading}
+              className="w-full bg-[#0c4563] text-white py-4 rounded-2xl font-bold hover:bg-[#082f45] transition-all shadow-xl shadow-[#0c4563]/20 text-sm tracking-wide disabled:opacity-70"
             >
-              Access Library →
+              {loading ? "Verifying..." : "Access Library →"}
             </button>
           </form>
         </div>
@@ -131,30 +115,53 @@ export default function RecordedCourses() {
             <p className="text-[#7a7060] italic">No lessons available in the library yet.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 gap-12">
             {courses.map((c) => (
-              <div key={c._id} className="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-[#e8e0d5] group">
-                <div className="aspect-video bg-slate-900 relative">
-                  <iframe
-                    className="absolute inset-0 w-full h-full"
-                    src={formatVideoUrl(c.videoUrl)}
-                    title={c.title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-                <div className="p-8 md:p-10">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="w-2 h-2 rounded-full bg-[#c9a84c]"></span>
-                    <span className="text-[10px] font-bold text-[#c9a84c] uppercase tracking-widest">Masterclass</span>
+              <div key={c._id} className="bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-[#e8e0d5] group p-8 md:p-12">
+                <div className="mb-8 flex justify-between items-start">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="w-2 h-2 rounded-full bg-[#c9a84c]"></span>
+                      <span className="text-[10px] font-bold text-[#c9a84c] uppercase tracking-widest">Masterclass</span>
+                    </div>
+                    <h3 className="text-3xl font-bold text-[#0c4563] mb-4">
+                      {c.title}
+                    </h3>
+                    <p className="text-[#7a7060] text-sm leading-relaxed max-w-2xl">
+                      {c.description}
+                    </p>
                   </div>
-                  <h3 className="text-2xl font-bold text-[#0c4563] mb-4 group-hover:text-[#c9a84c] transition-colors duration-300">
-                    {c.title}
-                  </h3>
-                  <p className="text-[#7a7060] text-sm leading-relaxed line-clamp-3">
-                    {c.description}
-                  </p>
+                  {c.pdfUrl && (
+                    <a
+                      href={`${BASE_URL}${c.pdfUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#c9a84c] text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#b8933a] transition-all shadow-lg flex items-center gap-2 text-sm"
+                    >
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                      Download PDF
+                    </a>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                  {c.videoUrls && c.videoUrls.map((video, idx) => (
+                    <div key={idx} className="bg-[#fdf8f2] rounded-3xl overflow-hidden border border-[#e8e0d5]">
+                      <div className="aspect-video bg-slate-900 relative">
+                        <iframe
+                          className="absolute inset-0 w-full h-full"
+                          src={formatVideoUrl(video.url)}
+                          title={video.title}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        ></iframe>
+                      </div>
+                      <div className="p-6">
+                        <h4 className="font-bold text-[#0c4563]">{video.title || `Video Part ${idx + 1}`}</h4>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
