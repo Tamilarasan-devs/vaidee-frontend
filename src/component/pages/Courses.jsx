@@ -5,6 +5,7 @@ import BASE_URL from "../../apiConfig";
 
 const API_URL = `${BASE_URL}/api/courses`;
 
+
 // ── Shimmer Skeleton ──────────────────────────────────────────────
 function Skeleton({ w = "100%", h = "18px", r = "8px", mb = "0" }) {
   return (
@@ -153,14 +154,24 @@ const navigate = useNavigate();
       </div>
 
       {/* ── CTA ── */}
-      <button
-        className={`enroll-btn ${enrolled ? "enrolled" : ""}`}
-        // onClick={() => setEnrolled(true)}
-        onClick={() => navigate('/admission', { state: { courseName: course.title, fees: course.fees } })}
-      >
-        {/* {enrolled ? "✓ Enrolled Successfully!" : "Enroll Now →"} */}
-        Enroll Now 
-      </button>
+      <div className="card-actions">
+        {course.pdfUrl && (
+          <a
+            href={course.pdfUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="view-pdf-btn"
+          >
+            <DownloadIcon /> View Syllabus
+          </a>
+        )}
+        <button
+          className={`enroll-btn ${enrolled ? "enrolled" : ""}`}
+          onClick={() => navigate('/admission', { state: { courseName: course.title, fees: course.fees } })}
+        >
+          Enroll Now 
+        </button>
+      </div>
     </article>
   );
 }
@@ -207,6 +218,30 @@ function EmptyState() {
       <p className="error-title">No courses yet</p>
       <p className="error-msg">Check back soon — new batches are being added.</p>
     </div>
+  );
+}
+
+// ── Download Icon ─────────────────────────────────────────────────
+function DownloadIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}
+
+// ── PDF Icon ──────────────────────────────────────────────────────
+function PdfIcon() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+      <line x1="16" y1="13" x2="8" y2="13" />
+      <line x1="16" y1="17" x2="8" y2="17" />
+      <polyline points="10 9 9 9 8 9" />
+    </svg>
   );
 }
 
@@ -551,11 +586,15 @@ export default function Courses() {
       justify-content: center;
     }
 
-    /* ── CTA BUTTON ──────────────────────────── */
-    .enroll-btn {
+    /* ── CTA BUTTONS ─────────────────────────── */
+    .card-actions {
       margin: 22px 28px 28px;
-      background: var(--navy);
-      color: white;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .enroll-btn, .view-pdf-btn {
       padding: 14px 20px;
       border-radius: 12px;
       border: none;
@@ -567,9 +606,26 @@ export default function Courses() {
       transition: all 0.3s ease;
       position: relative;
       overflow: hidden;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
     }
 
-    .enroll-btn::before {
+    .enroll-btn {
+      background: var(--navy);
+      color: white;
+    }
+
+    .view-pdf-btn {
+      background: var(--gold-light);
+      color: #8a6a1a;
+      border: 1px solid var(--gold);
+    }
+
+    .enroll-btn::before, .view-pdf-btn::before {
       content: '';
       position: absolute;
       inset: 0;
@@ -584,7 +640,13 @@ export default function Courses() {
       box-shadow: 0 8px 20px rgba(12,69,99,0.3);
     }
 
-    .enroll-btn:hover::before { opacity: 1; }
+    .view-pdf-btn:hover {
+      background: #fdf3d8;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 20px rgba(201,168,76,0.2);
+    }
+
+    .enroll-btn:hover::before, .view-pdf-btn:hover::before { opacity: 1; }
 
     .enroll-btn.enrolled {
       background: var(--success);
@@ -643,6 +705,8 @@ export default function Courses() {
 
     .retry-btn:hover { background: var(--navy-dark); }
 
+    .retry-btn:hover { background: var(--navy-dark); }
+
     /* ── RESPONSIVE ──────────────────────────── */
     @media (max-width: 640px) {
       .courses-section { padding: 60px 5vw 70px; }
@@ -651,6 +715,8 @@ export default function Courses() {
       .info-grid { grid-template-columns: 1fr; }
     }
   `;
+
+  const coursesWithPdf = courses.filter((c) => c.pdfUrl);
 
   return (
     <div>
@@ -685,7 +751,6 @@ export default function Courses() {
             <CourseCard key={course._id} course={course} index={i} />
           ))}
         </div>
-
       </section>
     </div>
   );
