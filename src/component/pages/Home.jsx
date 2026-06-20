@@ -404,39 +404,36 @@ export default function Home() {
               courses.map((course) => (
                 <div key={course._id} className="group relative rounded-[32px] overflow-hidden shadow-[0_8px_48px_rgba(12,69,99,0.1)] border border-[rgba(12,69,99,0.08)] bg-white flex flex-col transition-all duration-300 hover:shadow-[0_20px_60px_rgba(12,69,99,0.15)] hover:-translate-y-1">
                   {/* Card Header */}
-                  <div className="relative overflow-hidden px-8 py-9"
-                    style={{ background: 'linear-gradient(135deg, #0c4563 0%, #165c82 100%)' }}>
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-[0.03] rounded-full -mr-16 -mt-16" />
-                    <div className="inline-flex items-center gap-1.5 bg-[#c9a84c] text-[#071e2c] text-[10px] font-bold px-3.5 py-1.5 rounded-full tracking-wider uppercase mb-4">
-                      <span className="w-1 h-1 bg-[#071e2c] rounded-full" />
-                      {course.tagLine || "Professional Path"}
+                  {course.thumbnailUrl ? (
+                    <div className="w-full h-56 bg-slate-100 relative">
+                      <img 
+                        src={`${BASE_URL}${course.thumbnailUrl}`} 
+                        alt={course.title} 
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <h3 className="font-cormorant font-bold text-white text-[26px] leading-tight mb-1.5">{course.title}</h3>
-                    <div className="text-[12px] text-[rgba(255,255,255,0.5)] font-light tracking-wide">{course.duration} Program</div>
-                  </div>
+                  ) : (
+                    <div className="relative overflow-hidden px-8 py-9"
+                      style={{ background: 'linear-gradient(135deg, #0c4563 0%, #165c82 100%)' }}>
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-[0.03] rounded-full -mr-16 -mt-16" />
+                      <div className="relative z-10">
+                        <div className="inline-flex items-center gap-1.5 bg-[#c9a84c] text-[#071e2c] text-[10px] font-bold px-3.5 py-1.5 rounded-full tracking-wider uppercase mb-4 shadow-sm">
+                          <span className="w-1 h-1 bg-[#071e2c] rounded-full" />
+                          {course.tagLine || "Professional Path"}
+                        </div>
+                        <h3 className="font-cormorant font-bold text-white text-[26px] leading-tight mb-1.5 drop-shadow-md">{course.title}</h3>
+                        <div className="text-[12px] text-[rgba(255,255,255,0.8)] font-light tracking-wide">{course.duration} Program</div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Card Body */}
                   <div className="px-8 py-8 flex-1 flex flex-col">
                     <div className="mb-8">
-                      <div className="flex items-baseline gap-2 mb-6">
+                      <div className="flex items-baseline gap-2">
                         <span className="font-cormorant font-bold text-[#0c4563] text-[40px] leading-none">₹{course.fees}</span>
                         <span className="text-[13px] text-[#6b7280] font-light uppercase tracking-widest">Full Course</span>
                       </div>
-
-                      <div className="grid grid-cols-2 gap-3 mb-8">
-                        <div className="bg-[#fcf7ef] rounded-2xl p-4 border border-[rgba(201,168,76,0.1)]">
-                          <div className="text-[9px] text-[#b8933a] font-bold uppercase tracking-[0.15em] mb-1.5">Schedule</div>
-                          <div className="text-[13px] font-semibold text-[#0c4563] truncate">{course.schedule}</div>
-                        </div>
-                        <div className="bg-[#fcf7ef] rounded-2xl p-4 border border-[rgba(201,168,76,0.1)]">
-                          <div className="text-[9px] text-[#b8933a] font-bold uppercase tracking-[0.15em] mb-1.5">Timing</div>
-                          <div className="text-[13px] font-semibold text-[#0c4563] truncate">{course.timing}</div>
-                        </div>
-                      </div>
-
-                      <p className="text-[14px] text-[#6b7280] leading-[1.8] line-clamp-3 font-light">
-                        {course.description}
-                      </p>
                     </div>
 
                     <div className="mt-auto">
