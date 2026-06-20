@@ -157,7 +157,7 @@ const navigate = useNavigate();
       <div className="card-actions">
         {course.pdfUrl && (
           <a
-            href={course.pdfUrl}
+            href={course.pdfUrl.startsWith("http") ? course.pdfUrl : `${BASE_URL}${course.pdfUrl}`}
             target="_blank"
             rel="noopener noreferrer"
             className="view-pdf-btn"
