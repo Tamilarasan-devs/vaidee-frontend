@@ -133,10 +133,20 @@ export default function RecordedCourses() {
                   </div>
                   {c.pdfUrl && (
                     <a
-                      href={`${BASE_URL}${c.pdfUrl}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      href="#"
                       className="bg-[#c9a84c] text-white px-6 py-3 rounded-2xl font-bold hover:bg-[#b8933a] transition-all shadow-lg flex items-center gap-2 text-sm"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const filename = `${(c.title || "material").replace(/\s+/g, "_")}_Material.pdf`;
+                        // pdfUrl is a relative path like /uploads/recorded-courses/xxx.pdf
+                        const proxyUrl = `${BASE_URL}/api/courses/download-pdf?url=${encodeURIComponent(c.pdfUrl)}&filename=${encodeURIComponent(filename)}`;
+                        const link = document.createElement("a");
+                        link.href = proxyUrl;
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
                     >
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                       Download PDF

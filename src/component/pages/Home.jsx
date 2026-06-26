@@ -405,11 +405,18 @@ export default function Home() {
                 <div key={course._id} className="group relative rounded-[32px] overflow-hidden shadow-[0_8px_48px_rgba(12,69,99,0.1)] border border-[rgba(12,69,99,0.08)] bg-white flex flex-col transition-all duration-300 hover:shadow-[0_20px_60px_rgba(12,69,99,0.15)] hover:-translate-y-1">
                   {/* Card Header */}
                   {course.thumbnailUrl ? (
-                    <div className="w-full h-56 bg-slate-100 relative">
+                    <div className="w-full h-80 relative overflow-hidden bg-[#071e2c]">
+                      {/* Blurred background effect */}
                       <img 
-                        src={`${BASE_URL}${course.thumbnailUrl}`} 
+                        src={course.thumbnailUrl.startsWith('http') ? course.thumbnailUrl : `${BASE_URL}${course.thumbnailUrl}`} 
+                        alt="" 
+                        className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-60 scale-110"
+                      />
+                      {/* Main Image */}
+                      <img 
+                        src={course.thumbnailUrl.startsWith('http') ? course.thumbnailUrl : `${BASE_URL}${course.thumbnailUrl}`} 
                         alt={course.title} 
-                        className="w-full h-full object-cover"
+                        className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
                       />
                     </div>
                   ) : (

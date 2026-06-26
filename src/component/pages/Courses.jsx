@@ -89,6 +89,21 @@ function CourseCard({ course, index }) {
     "Certificate on completion",
   ];
 const navigate = useNavigate();
+
+  const handleDownload = (e, pdfUrl, title) => {
+    e.preventDefault();
+    // pdfUrl is stored as a relative path: /uploads/courses/xxx.pdf
+    const filename = `${title.replace(/\s+/g, "_")}_Material.pdf`;
+    // Route through the proxy so Content-Disposition forces a download
+    const proxyUrl = `${BASE_URL}/api/courses/download-pdf?url=${encodeURIComponent(pdfUrl)}&filename=${encodeURIComponent(filename)}`;
+    const link = document.createElement("a");
+    link.href = proxyUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <article
       className="course-card"
@@ -157,12 +172,11 @@ const navigate = useNavigate();
       <div className="card-actions">
         {course.pdfUrl && (
           <a
-            href={course.pdfUrl.startsWith("http") ? course.pdfUrl : `${BASE_URL}${course.pdfUrl}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#"
             className="view-pdf-btn"
+            onClick={(e) => handleDownload(e, course.pdfUrl, course.title)}
           >
-            <DownloadIcon /> View Syllabus
+            <DownloadIcon /> Download Course Material
           </a>
         )}
         <button

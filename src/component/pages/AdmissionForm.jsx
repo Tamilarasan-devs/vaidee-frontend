@@ -342,10 +342,10 @@ export default function AdmissionForm() {
 
           {/* bottom stats strip */}
           <div
-            className="grid grid-cols-3 divide-x"
+            className="grid grid-cols-2 divide-x"
             style={{ borderTop: `1px solid rgba(255,255,255,0.1)`, divideColor: "rgba(255,255,255,0.1)" }}
           >
-            {[["Duration", selectedCourse.duration || "6 Months"], ["Fees", `₹${form.totalFees}`], ["Batches", "3 Daily"]].map(([label, val]) => (
+            {[ ["Fees", `₹${form.totalFees}`], ["Batches", "3 Daily"]].map(([label, val]) => (
               <div key={label} className="py-3 flex flex-col items-center" style={{ borderRight: "1px solid rgba(255,255,255,0.1)" }}>
                 <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>{label}</span>
                 <span className="text-sm font-semibold text-white">{val}</span>
@@ -370,52 +370,14 @@ export default function AdmissionForm() {
               <SectionHeader number="1" title="Personal Details" icon="👤" />
               <div className="grid grid-cols-2 gap-x-5 gap-y-5">
                 <Field label="Full Name"><Input value={form.fullName} onChange={set("fullName")} placeholder="Enter full name" /></Field>
-                <Field label="Father / Husband Name"><Input value={form.fatherName} onChange={set("fatherName")} placeholder="Enter name" /></Field>
-                <Field label="Date of Birth" half><Input type="date" value={form.dob} onChange={set("dob")} /></Field>
                 <Field label="Gender" half>
                   <RadioGroup options={["Male", "Female", "Other"]} name="gender" value={form.gender} onChange={setRadio("gender")} />
                 </Field>
                 <Field label="Phone Number" half><Input type="tel" value={form.phone} onChange={set("phone")} placeholder="+91 XXXXX XXXXX" /></Field>
-                <Field label="WhatsApp Number" half><Input type="tel" value={form.whatsapp} onChange={set("whatsapp")} placeholder="+91 XXXXX XXXXX" /></Field>
                 <Field label="Email ID"><Input type="email" value={form.email} onChange={set("email")} placeholder="example@email.com" /></Field>
               </div>
             </div>
 
-            {/* ── Section 2: Address ── */}
-            <div className="p-7 pb-5" style={{ borderBottom: `1px solid ${NAVY}10` }}>
-              <SectionHeader number="2" title="Address Details" icon="📍" />
-              <div className="grid grid-cols-2 gap-x-5 gap-y-5">
-                <Field label="Full Address">
-                  <textarea
-                    value={form.address}
-                    onChange={set("address")}
-                    placeholder="Door No, Street, Area..."
-                    rows={3}
-                    style={{ ...inputStyle, resize: "none" }}
-                  />
-                </Field>
-                <div className="col-span-1 grid grid-cols-1 gap-5">
-                  <Field label="City"><Input value={form.city} onChange={set("city")} placeholder="City" /></Field>
-                  <Field label="Pincode"><Input value={form.pincode} onChange={set("pincode")} placeholder="6-digit pincode" /></Field>
-                </div>
-              </div>
-            </div>
-
-            {/* ── Section 3: Education ── */}
-            <div className="p-7 pb-5" style={{ borderBottom: `1px solid ${NAVY}10` }}>
-              <SectionHeader number="3" title="Educational Details" icon="🎓" />
-              <div className="grid grid-cols-2 gap-x-5 gap-y-5">
-                <Field label="Highest Qualification" half>
-                  <Select value={form.qualification} onChange={set("qualification")}>
-                    <option value="">Select qualification</option>
-                    {["10th / SSLC", "12th / HSC", "Diploma", "UG Degree", "PG Degree", "Other"].map(q => (
-                      <option key={q} value={q}>{q}</option>
-                    ))}
-                  </Select>
-                </Field>
-                <Field label="College / School Name" half><Input value={form.college} onChange={set("college")} placeholder="Institution name" /></Field>
-              </div>
-            </div>
 
             {/* ── Section 4: Course ── */}
             <div className="p-7 pb-5" style={{ borderBottom: `1px solid ${NAVY}10` }}>
@@ -430,9 +392,6 @@ export default function AdmissionForm() {
                   </div>
                 </Field>
                 <Field label="Joining Date" half><Input type="date" value={form.joiningDate} onChange={set("joiningDate")} /></Field>
-                <Field label="Preferred Batch" half>
-                  <RadioGroup options={["Morning", "Afternoon", "Evening"]} name="batch" value={form.batch} onChange={setRadio("batch")} />
-                </Field>
               </div>
             </div>
 
