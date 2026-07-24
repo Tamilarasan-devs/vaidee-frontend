@@ -126,13 +126,14 @@ export default function Home() {
   const navigate = useNavigate()
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
+  const [visibleCount, setVisibleCount] = useState(2)
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const { data } = await axios.get(`${BASE_URL}/api/courses`)
         if (data.success) {
-          setCourses(data.data.slice(0, 2))
+          setCourses(data.data)
         }
       } catch (err) {
         console.error("Error fetching courses:", err)
@@ -203,7 +204,7 @@ export default function Home() {
               tracking-wide transition-all duration-200
               hover:-translate-y-0.5 hover:bg-[#e8c97a] hover:shadow-[0_10px_28px_rgba(201,168,76,0.28)]
               sm:justify-center">
-               View Course Details <ArrowRight />
+              View Course Details <ArrowRight />
             </button>
           </div>
 
@@ -401,21 +402,21 @@ export default function Home() {
                 <p className="text-[#6b7280] font-light italic">Readying our next batch of courses for you...</p>
               </div>
             ) : (
-              courses.map((course) => (
+              courses.slice(0, visibleCount).map((course) => (
                 <div key={course._id} className="group relative rounded-[32px] overflow-hidden shadow-[0_8px_48px_rgba(12,69,99,0.1)] border border-[rgba(12,69,99,0.08)] bg-white flex flex-col transition-all duration-300 hover:shadow-[0_20px_60px_rgba(12,69,99,0.15)] hover:-translate-y-1">
                   {/* Card Header */}
                   {course.thumbnailUrl ? (
                     <div className="w-full h-80 relative overflow-hidden bg-[#071e2c]">
                       {/* Blurred background effect */}
-                      <img 
-                        src={course.thumbnailUrl.startsWith('http') ? course.thumbnailUrl : `${BASE_URL}${course.thumbnailUrl}`} 
-                        alt="" 
+                      <img
+                        src={course.thumbnailUrl.startsWith('http') ? course.thumbnailUrl : `${BASE_URL}${course.thumbnailUrl}`}
+                        alt=""
                         className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-60 scale-110"
                       />
                       {/* Main Image */}
-                      <img 
-                        src={course.thumbnailUrl.startsWith('http') ? course.thumbnailUrl : `${BASE_URL}${course.thumbnailUrl}`} 
-                        alt={course.title} 
+                      <img
+                        src={course.thumbnailUrl.startsWith('http') ? course.thumbnailUrl : `${BASE_URL}${course.thumbnailUrl}`}
+                        alt={course.title}
                         className="relative z-10 w-full h-full object-contain drop-shadow-2xl"
                       />
                     </div>
@@ -438,12 +439,20 @@ export default function Home() {
                   <div className="px-8 py-8 flex-1 flex flex-col">
                     <div className="mb-8">
                       <div className="flex items-baseline gap-2">
-                        <span className="font-cormorant font-bold text-[#0c4563] text-[40px] leading-none">₹{course.fees}</span>
+                        <span className=" font-bold text-[#0c4563] text-[40px] leading-none">₹{course.fees}</span>
                         <span className="text-[13px] text-[#6b7280] font-light uppercase tracking-widest">Full Course</span>
                       </div>
                     </div>
 
-                    <div className="mt-auto">
+                    <div className="mt-auto flex flex-col gap-3">
+                      <button
+                        onClick={() => navigate('/courses')}
+                        className="font-outfit w-full flex items-center justify-center gap-2
+                          text-[#0c4563] border-[1.5px] border-[rgba(12,69,99,0.2)] bg-transparent px-6 py-3.5 rounded-2xl text-[14px] font-semibold cursor-pointer
+                          tracking-wide transition-all duration-300
+                          hover:border-[#0c4563] hover:bg-[#0c4563] hover:text-white">
+                        View Full Details
+                      </button>
                       <button
                         onClick={() => navigate('/admission', { state: { courseName: course.title, fees: course.fees } })}
                         className="font-outfit w-full flex items-center justify-center gap-2
@@ -461,18 +470,18 @@ export default function Home() {
           </div>
         )}
 
-        {/* View All Button */}
-        {!loading && courses.length > 0 && (
+        {/* View More Button */}
+        {!loading && courses.length > visibleCount && (
           <div className="mt-16 flex justify-center">
             <button
-              onClick={() => navigate('/courses')}
+              onClick={() => setVisibleCount(prev => prev + 2)}
               className="group font-outfit inline-flex items-center gap-3 border-[1.5px] border-[rgba(12,69,99,0.2)] text-[#0c4563]
                 px-10 py-4 rounded-2xl text-[14px] font-semibold cursor-pointer
                 tracking-wide transition-all duration-300
                 hover:border-[#0c4563] hover:bg-[#0c4563] hover:text-white"
             >
-              View All Courses
-              <div className="transition-transform duration-300 group-hover:translate-x-1">
+              View More Courses
+              <div className="transition-transform duration-300 rotate-90 group-hover:translate-y-1">
                 <ArrowRight />
               </div>
             </button>
